@@ -3,6 +3,7 @@ import { useContext } from 'react';
 import { AppContext } from '../../context/AppContext';
 import { Link } from 'react-router-dom';
 import CourseCard from './CourseCard';
+
 const CoursesSection = () => {
     const { allcourses } = useContext(AppContext);
     return (
@@ -14,7 +15,7 @@ const CoursesSection = () => {
                 {allcourses.slice(0, 4).map((course, index) => <CourseCard key={index} course={course} />)}
             </div>
 
-            <Link to="/student/courses-list" onClick={() => scrollTo(0, 0)} className='text-gray-500 border border-gray-500/30 px-10 py-3 rounded'>Show all courses</Link>
+            <Link to="/course-list" onClick={() => scrollTo(0,0)} className='text-gray-500 border border-gray-500/30 px-10 py-3 rounded'>Show all courses</Link>
         </div>
     );
 }
