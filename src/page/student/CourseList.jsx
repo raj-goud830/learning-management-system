@@ -4,6 +4,7 @@ import { AppContext } from '../../context/AppContext';
 import { useParams } from 'react-router-dom';
 import CourseCard from '../../component/student/CourseCard';
 import { assets } from '../../assets/assets';
+import Footer from '../../component/student/Footer';
 const CourseList = () => {
   const { navigate, allcourses } = useContext(AppContext);
   const { input } = useParams()
@@ -37,6 +38,7 @@ const CourseList = () => {
         <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 my-16 gap-3 px-2 md:p-0'>
           {filteredCourses.map((course, index) => <CourseCard key={index} course={course} />)}
         </div>
+        <Footer/>
       </div>
     </>
   );
