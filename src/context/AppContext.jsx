@@ -1,8 +1,8 @@
 import { createContext, useEffect, useState } from 'react';
 import { dummyCourses } from '../assets/assets';
 import { useNavigate } from 'react-router-dom';
-
-export const AppContext = createContext()
+import hamanizeDuration from 'humanize-duration';
+import { AppContext } from './AppContextCreate';
 
 export const AppContextProvider = (props) => {
     const currency = import.meta.env.VITE_CURRENCY || '$';
@@ -23,22 +23,42 @@ export const AppContextProvider = (props) => {
         return (totalRating / course.courseRatings.length).toFixed(1);
     }
     
+    const calculatingTime = (chapter) => {
+        let time = 0;
+        chapter.chapterContent.map((lecture) => time += lecture.lectureDuration);
+        return hamanizeDuration(time * 60 * 1000, { units: ['h', 'm'] });
+    }
 
-    useEffect(() => {
-    const fetchAllCourse = async () => {
-      await Promise.resolve();
-      setAllCourses(dummyCourses);
-    };
+    const courseDuration = (course) => {
+        let time = 0;
+        course.courseDuration.map((chapter) => chapter.chapterContent.map((lecture) => time += lecture.lectureDuration));
+        return hamanizeDuration(time * 60 * 1000, { units: ['h', 'm'] });
+    }
 
-    fetchAllCourse();
-  }, []);
+    const calculateLactures = (course) => {
+        let lectures = 0;
+        course.courseContent.forEach((chapter) => {
+            if (Array.isArray(chapter.chapterContent)) {
+                lectures += chapter.chapterContent.length;
+            }
+        });
+ 
+        useEffect(() => {
+            const fetchAllCourse = async () => {
+                await Promise.resolve();
+                setAllCourses(dummyCourses);
+            };
 
-    const value = {
-        currency, allcourses, navigate, calculatinRating, isEducator, setIsEducator
-    }; 
-    return (
-        <AppContext.Provider value={value} >
-            {props.children}
-        </AppContext.Provider>
-    )
+            fetchAllCourse();
+        }, []);
+
+        const value = {
+            currency, allcourses, navigate, calculatinRating, isEducator, setIsEducator, calculatingTime, courseDuration, calculateLactures
+        };
+        return (
+            <AppContext.Provider value={value} >
+                {props.children}
+            </AppContext.Provider>
+        )
+    }
 }
