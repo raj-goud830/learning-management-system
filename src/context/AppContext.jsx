@@ -1,8 +1,10 @@
-import { createContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { dummyCourses } from '../assets/assets';
 import { useNavigate } from 'react-router-dom';
-import hamanizeDuration from 'humanize-duration';
+import humanizeDuration from 'humanize-duration';
 import { AppContext } from './AppContextCreate';
+
+
 
 export const AppContextProvider = (props) => {
     const currency = import.meta.env.VITE_CURRENCY || '$';
@@ -12,7 +14,7 @@ export const AppContextProvider = (props) => {
     const [allcourses, setAllCourses] = useState([]);
     const [isEducator, setIsEducator] = useState(true);
     
-    const calculatinRating = (course) => {
+    const calculatingRating = (course) => {
         if (course.courseRatings.length === 0) {
             return 0;
         }
@@ -26,39 +28,41 @@ export const AppContextProvider = (props) => {
     const calculatingTime = (chapter) => {
         let time = 0;
         chapter.chapterContent.map((lecture) => time += lecture.lectureDuration);
-        return hamanizeDuration(time * 60 * 1000, { units: ['h', 'm'] });
+        return humanizeDuration(time * 60 * 1000, { units: ['h', 'm'] });
     }
 
     const courseDuration = (course) => {
         let time = 0;
         course.courseDuration.map((chapter) => chapter.chapterContent.map((lecture) => time += lecture.lectureDuration));
-        return hamanizeDuration(time * 60 * 1000, { units: ['h', 'm'] });
+        return humanizeDuration(time * 60 * 1000, { units: ['h', 'm'] });
     }
 
-    const calculateLactures = (course) => {
+    const calculateLectures = (course) => {
         let lectures = 0;
         course.courseContent.forEach((chapter) => {
             if (Array.isArray(chapter.chapterContent)) {
                 lectures += chapter.chapterContent.length;
             }
         });
- 
-        useEffect(() => {
-            const fetchAllCourse = async () => {
-                await Promise.resolve();
-                setAllCourses(dummyCourses);
-            };
-
-            fetchAllCourse();
-        }, []);
-
-        const value = {
-            currency, allcourses, navigate, calculatinRating, isEducator, setIsEducator, calculatingTime, courseDuration, calculateLactures
-        };
-        return (
-            <AppContext.Provider value={value} >
-                {props.children}
-            </AppContext.Provider>
-        )
+        return lectures;
     }
+
+    useEffect(() => {
+        const fetchAllCourse = async () => {
+            await Promise.resolve();
+            setAllCourses(dummyCourses);
+        };
+
+        fetchAllCourse();
+    }, []);
+
+    const value = {
+        currency, allcourses, navigate, calculatingRating, isEducator, setIsEducator, calculatingTime, courseDuration, calculateLectures
+    };
+    
+    return (
+        <AppContext.Provider value={value} >
+            {props.children}
+        </AppContext.Provider>
+    )
 }

@@ -12,9 +12,11 @@ import AddCourse from './page/educator/AddCourse.jsx'
 import MyCourse from './page/educator/MyCourse.jsx'
 import StudentEnrolled from './page/educator/StudentEnrolled.jsx'
 import Navbar from './component/student/Navbar.jsx'
+import { AppContextProvider } from './context/AppContext.jsx'
  const App = () => {
     const isEducator = useMatch('/educator/*');
     return (
+   <AppContextProvider>
    <div className='min-h-screen text-default bg-white'>
        {!isEducator && <Navbar />}
         <Routes>
@@ -33,6 +35,7 @@ import Navbar from './component/student/Navbar.jsx'
             </Route>
      </Routes>
 </div>
+</AppContextProvider>
 );
 }
 export default App

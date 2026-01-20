@@ -1,6 +1,6 @@
 import React, { useContext, useMemo } from 'react'
 import SearchBar from '../../component/student/SearchBar';
-import { AppContext } from '../../context/AppContext';
+import { AppContext } from '../../context/AppContextCreate';
 import { useParams } from 'react-router-dom';
 import CourseCard from '../../component/student/CourseCard';
 import { assets } from '../../assets/assets';
