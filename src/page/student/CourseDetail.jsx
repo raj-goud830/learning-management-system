@@ -7,7 +7,7 @@ import humanizeDuration from 'humanize-duration';
 const CourseDetail = () => {
 
   const { id } = useParams();
-  const { allcourses, calculatingRating, calculatingTime, courseDuration, calculateLectures } = useContext(AppContext);
+  const { allcourses, calculatingRating, calculatingTime, courseDuration, calculateLectures, currency } = useContext(AppContext);
   const [courseData, setCourseData] = useState(null)
   const [openSection, setOpenSection] = useState({})
 
@@ -82,6 +82,43 @@ const CourseDetail = () => {
           <div className='py-20 text-sm md:text-default'>
             <h3 className='text-xl font-semibold text-gray-800'>Course Description</h3>
              <p className='pt-3 rich-text' dangerouslySetInnerHTML={{ __html: courseData.courseDescription}}></p>
+          </div>
+        </div>
+
+        <div className='max-w-course-card course-card  shadow-custom-card z-10 rounded-t md:rounded-none overflow-hidden bg-white min-w-[300px] sm:min-w-[420px]'>
+          <img src={courseData.courseThumbnail} alt="couerse thumbnail" />
+          <div className='p-5'>
+            <div className='flex items-center gap-2'>
+              <img src={assets.time_left_clock_icon}  alt="time left clock" className='w-3.5'/>
+              <p className='text-red-500'><span className='font-medium'>5 days</span>left at this price!</p>
+            </div>
+
+            <div className='flex gap-3 items-center pt-2'>
+              <p className='text-gray-700 md:text-3xl text-2xl font-semibold'>{currency}{(courseData.coursePrice - courseData.discount * courseData.coursePrice / 100).toFixed(2)}</p>
+              <p className='md:text-lg text-gray-500 line-through'>{currency}{courseData.coursePrice.toFixed(2)}</p>
+              <p className='md:text-lg text-gray-500'>{courseData.discount}% off</p>
+            </div>
+
+            <div className='flex items-center text-sm md:text-xl gap-4 pt-2 md:pt-4 text-gray-500'>
+              <div className='flex items-center gap-1'>
+                <img src={assets.star} alt="star" />
+                <p>{calculatingRating(courseData)}</p>
+              </div>
+              
+              <div className='h-4 w-px bg-gray-500/40'></div>
+              
+              <div className='flex items-center gap-1'>
+                <img src={assets.time_clock_icon} alt="time clock" />
+                <p>{courseDuration(courseData)} lesson</p>
+              </div>
+
+              <div className='h-4 w-px bg-gray-500/40'></div>
+              
+              <div className='flex items-center gap-1'>
+                <img src={assets.time_clock_icon} alt="time clock" />
+                <p>{calculateLectures(courseData)} lesson</p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
