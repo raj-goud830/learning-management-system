@@ -13,6 +13,7 @@ export const AppContextProvider = (props) => {
     
     const [allcourses, setAllCourses] = useState([]);
     const [isEducator, setIsEducator] = useState(true);
+    const [studentenrolled, setStudentEnrolled] = useState([]);
     
     const calculatingRating = (course) => {
         if (course.courseRatings.length === 0) {
@@ -52,12 +53,16 @@ export const AppContextProvider = (props) => {
             await Promise.resolve();
             setAllCourses(dummyCourses);
         };
+        const fetchEnrolledStudents = async () => {
+            setStudentEnrolled(dummyCourses)
+        }
 
         fetchAllCourse();
+        fetchEnrolledStudents();
     }, []);
 
     const value = {
-        currency, allcourses, navigate, calculatingRating, isEducator, setIsEducator, calculatingTime, courseDuration, calculateLectures
+        currency, allcourses, navigate, calculatingRating, isEducator, setIsEducator, calculatingTime, courseDuration, calculateLectures, studentenrolled
     };
     
     return (
