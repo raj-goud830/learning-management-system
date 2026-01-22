@@ -1,5 +1,7 @@
 import React, { useContext, useState } from 'react'
 import { AppContext } from '../../context/AppContextCreate';
+import Footer from '../../component/student/Footer';
+import { Line } from 'rc-progress';
 const MyEnrollement = () => {
   const { studentenrolled, courseDuration, navigate } = useContext(AppContext);
   const [progress, setProgress] = useState([
@@ -33,6 +35,7 @@ const MyEnrollement = () => {
                   <img src={course.courseThumbnail} alt="thumbnail" className='w-14 sm:w-24 md:w-28' />
                   <div className='flex-1'>
                     <p className='mb-1 max-sm:text-sm'>{course.courseTitle}</p>
+                    <Line percent={progress[index] ? (progress[index].lectureCompleted / progress[index].totallectures) * 100 : 0} strokeWidth={1.5} strokeColor="#3b82f6" />
                   </div>
                 </td>
                 <td className='px-4 py-3 max-sm:hidden'>
@@ -42,13 +45,14 @@ const MyEnrollement = () => {
                   { progress[index] && `${progress[index].lectureCompleted} / ${progress[index].totallectures}`} <span>lectures</span>
                 </td>
                 <td className='px-4 py-3 max-sm:text-right'>
-                  <button onClick={() => navigate('/player' + course._id)} className='px-3 sm:px-5 py-1.5 sm:py-2 bg-blue-600 max-sm:text-xs cursor-pointer text-white rounded-md'>
+                  <button onClick={() => navigate('/player/' + course._id)} className='px-3 sm:px-5 py-1.5 sm:py-2 bg-blue-600 max-sm:text-xs cursor-pointer text-white rounded-md'>
                       { progress[index] && progress[index].lectureCompleted / progress[index].totallectures === 1 ? 'Completed' : 'On Going'}</button>
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
+        <Footer/>
       </div>
     </>
   );
