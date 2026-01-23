@@ -25,6 +25,7 @@ import { AppContextProvider } from './context/AppContext.jsx'
             <Route path='/course-list/:input' element={<CourseList />} />
             <Route path='/course/:id' element={<CouseDetail />} />
             <Route path='/myenrollment' element={<MyEnrollment />} />
+            {/* <Route path='/player' element={<Player />} /> */}
             <Route path='/player/:courseId' element={<Player />} />
             <Route path='/loading/:path' element={<Loading />} />
             <Route path='/educator' element={<Educator />} >
