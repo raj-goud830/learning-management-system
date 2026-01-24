@@ -4,6 +4,8 @@ import { assets } from '../../assets/assets';
 import humanizeDuration from 'humanize-duration';
 import { useParams } from 'react-router-dom';
 import YouTube from 'react-youtube';
+import Footer from '../../component/student/Footer';
+import Rating from '../../component/student/Rating';
 const Player = () => {
 
   const { studentenrolled, calculatingTime } = useContext(AppContext)
@@ -13,15 +15,15 @@ const Player = () => {
   const [player, setPlayer] = useState()
 
   const getCourseData = () => {
-  
-    
+
+
     if (!Array.isArray(studentenrolled) || studentenrolled.length === 0) {
-      
+
       return;
     }
 
     const course = studentenrolled.find((item) => item._id === courseId);
-    
+
     setCourseData(course || null);
   }
 
@@ -81,31 +83,48 @@ const Player = () => {
               <p className='text-red-500'>Course not found.</p>
             )}
           </div>
+
+        <div className='flex items-center gap-2 py-2 mt-10'>
+            <h1 className='text-xl font-semibold'>Rate this Course:</h1>
+            <Rating initialRating={0}/>
+        </div>
         </div>
         {/* right view */}
-        <div className='md:mt-10'>
-          {player ? (
+        <div >
+          {player ?
             <div>
               <YouTube videoId={player.lectureUrl.split('/').pop()} opts={{
                 playerVars: {
                   autoplay: 1
                 }
-              }} iframeClassName='w-full aspect-video' /> 
-              <div className='flex items-center justify-between mt-1'>
-                <p>Chapter</p>
-                <button className='text-blue-600'>{false ? "Completed" : "Mark Complete"}</button>
+              }} iframeClassName='w-full aspect-video' />
+              <div className='flex justify-between'>
+                <div>
+                  <h2 className='font-semibold text-lg mt-4'>{player.lectureTitle}</h2>
+                  <p>chapter { player.chapter} - lecture { player.lecture}</p>
+                </div>
+                <div className='mt-4'>
+                  <button className='text-blue-600 font-semibold cursor-pointer'>{false ? "Completed" : "Mark Complete"}</button>
+                </div>
               </div>
             </div>
-          ) : (
-            courseData && courseData.courseThumbnail ? (
-              <img src={courseData.courseThumbnail} alt="thumbnail" className='w-full rounded' />
-            ) : (
-              <div className='text-gray-400'>Select a lecture to watch</div>
-            )
-          )}
-        </div> 
+            : (
+              courseData && courseData.courseThumbnail ? (
+                <img src={courseData.courseThumbnail} alt="thumbnail" className='w-full rounded' />
+              ) : (
+                <div className='text-gray-400'>Select a lecture to watch</div>
+              )
+            )}
+        </div>
       </div>
+      <Footer/>
     </>
   );
 }
 export default Player;
+
+
+// <div className='flex items-center justify-between mt-10'>
+//                 <p className='text-2xl text-blue-600'>Chapter grfgs</p>
+//                 <button className='text-blue-600'>{false ? "Completed" : "Mark Complete"}</button>
+//               </div>
