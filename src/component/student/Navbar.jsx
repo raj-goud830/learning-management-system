@@ -15,9 +15,9 @@ const Navbar = () => {
         <div className={`flex justify-between items-center px-5 sm:px-10 md:px-14 lg:px-36 border-b border-gray-500 py-4 shadow-md ${isCourseListed ? 'bg-white' : 'bg-cyan-100/70'}`}>
             <img onClick={() => navigate('/')} src={assets.logo} alt="logo" className='w-28 lg:w-32 cursor-pointer' />
             <div className='hidden md:flex items-center gap-5 text-gray-600'>
-                <div className='flex items-center justify-center gap-3'>
+                <div className='flex items-center justify-center gap-3 cursor-pointer'>
                     {user && <>
-                        <button onClick={() => navigate('/Educator')}>{isEducator ? 'Educator Dashboard' : 'Become an Educator'}</button>
+                        <button className='cursor-pointer' onClick={() => navigate('/Educator')}>{isEducator ? 'Educator Dashboard' : 'Become an Educator'}</button>
                         | <Link to='/my-enrollment'>My Enrollment</Link>
                     </>
                     }
