@@ -13,6 +13,7 @@ import MyCourse from './page/educator/MyCourse.jsx'
 import StudentEnrolled from './page/educator/StudentEnrolled.jsx'
 import Navbar from './component/student/Navbar.jsx'
 import { AppContextProvider } from './context/AppContext.jsx'
+import "quill/dist/quill.snow.css";
  const App = () => {
     const isEducator = useMatch('/educator/*');
     return (
